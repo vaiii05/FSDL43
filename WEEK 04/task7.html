@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dyson Cart</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: "Times New Roman", Times, serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background-color: #003366; /* Navy Blue */
+            color: #fff;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin: 0;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: 1.2em;
+            font-weight: lighter;
+            margin-top: 10px;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: #001f33; /* Darker Navy */
+            overflow: hidden;
+        }
+
+        nav a {
+            color: white;
+            padding: 16px 30px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #003366; /* Hover with lighter navy */
+        }
+
+        /* Main Content */
+        .main-container {
+            padding: 40px 20px;
+            background-color: #fff;
+            color: #333;
+        }
+
+        .main-container h2 {
+            font-size: 2.5em;
+            text-align: center;
+            color: #003366;
+            margin-bottom: 30px;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-top: 20px;
+            justify-items: center;
+        }
+
+        /* Product Card */
+        .product-card {
+            background-color: #fff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            max-width: 300px;
+            width: 100%;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card h3 {
+            font-size: 1.8em;
+            margin-top: 15px;
+            color: #003366;
+        }
+
+        .product-card p {
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        .product-card .price {
+            font-size: 1.6em;
+            color: #003366;
+            margin-top: 15px;
+        }
+
+        .product-card button {
+            background-color: #003366;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .product-card button:hover {
+            background-color: #001f33;
+        }
+
+        /* Hover Effect on Card */
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Shopping Cart */
+        .cart {
+            margin-top: 40px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cart h3 {
+            font-size: 2em;
+            color: #003366;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .cart-items {
+            list-style: none;
+            padding: 0;
+        }
+
+        .cart-items li {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cart-total {
+            font-size: 1.5em;
+            color: #003366;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .checkout-btn {
+            display: block;
+            background-color: #003366;
+            color: white;
+            padding: 12px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 10px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .checkout-btn:hover {
+            background-color: #001f33;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .product-card {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav a {
+                padding: 14px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Dyson E-Commerce</h1>
+        <p>Innovative Technology at Your Fingertips</p>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Shop</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Cart</a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <h2>Featured Products</h2>
+
+        <!-- Product Grid -->
+        <div class="product-grid">
+            <!-- Product Card 1 -->
+            <div class="product-card">
+                <img src="v15detect.jpg" alt="Dyson Vacuum Cleaner">
+                <h3>Dyson V15 Detect</h3>
+                <p>Powerful cordless vacuum cleaner with laser illumination.</p>
+                <p class="price">$699.99</p>
+                <button onclick="addToCart('Dyson V15 Detect', 699.99)">Add to Cart</button>
+            </div>
+
+            <!-- Product Card 2 -->
+            <div class="product-card">
+                <img src="purifier.jpg" alt="Dyson Air Purifier">
+                <h3>Dyson Purifier Hot+Cool</h3>
+                <p>Air purifier and heater with Wi-Fi connection.</p>
+                <p class="price">$499.99</p>
+                <button onclick="addToCart('Dyson Purifier Hot+Cool', 499.99)">Add to Cart</button>
+            </div>
+
+            <!-- Product Card 3 -->
+            <div class="product-card">
+                <img src="airwrap.jpg" alt="Dyson Hair Dryer">
+                <h3>Dyson Supersonic</h3>
+                <p>Fast and gentle hair dryer with intelligent heat control.</p>
+                <p class="price">$399.99</p>
+                <button onclick="addToCart('Dyson Supersonic', 399.99)">Add to Cart</button>
+            </div>
+
+            <!-- Product Card 4 -->
+            <div class="product-card">
+                <img src="headphones.jpg" alt="Dyson Fan">
+                <h3>Dyson OnTrac</h3>
+                <p>Best-in-class noise cancellation. Enhanced audio range</p>
+                <p class="price">$299.99</p>
+                <button onclick="addToCart('Dyson OnTrac', 299.99)">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shopping Cart -->
+    <div class="cart">
+        <h3>Your Shopping Cart</h3>
+        <ul class="cart-items" id="cartItems">
+            <!-- Cart items will be dynamically added here -->
+        </ul>
+        <div class="cart-total">
+            Total: $<span id="totalPrice">0.00</span>
+        </div>
+        <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Dyson. All Rights Reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms & Conditions</a></p>
+    </footer>
+
+    <script>
+        let cart = [];
+
+        // Function to add products to the cart
+        function addToCart(product, price) {
+            // Check if the product is already in the cart
+            const existingProductIndex = cart.findIndex(item => item.product === product);
+
+            if (existingProductIndex >= 0) {
+                cart[existingProductIndex].quantity += 1;
+            } else {
+                cart.push({ product, price, quantity: 1 });
+            }
+
+            updateCart();
+        }
+
+        // Function to update the cart display
+        function updateCart() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            const totalPriceContainer = document.getElementById('totalPrice');
+            
+            // Clear the cart items
+            cartItemsContainer.innerHTML = '';
+            let totalPrice = 0;
+
+            // Add each item to the cart
+            cart.forEach((item, index) => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `${item.product} - $${item.price.toFixed(2)} x ${item.quantity} <button onclick="removeFromCart(${index})">Remove</button>`;
+                cartItemsContainer.appendChild(listItem);
+                totalPrice += item.price * item.quantity;
+            });
+
+            // Update the total price
+            totalPriceContainer.textContent = totalPrice.toFixed(2);
+        }
+
+        // Function to remove products from the cart
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        // Function to handle checkout
+        function checkout() {
+            alert("Proceeding to checkout!");
+        }
+    </script>
+
+</body>
+</html>
