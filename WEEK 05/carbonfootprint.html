@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Footprint Calculator</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #e3f2fd; margin: 0; padding: 20px; }
+        h1 { text-align: center; color: #1565c0; }
+        .container { max-width: 450px; margin: 0 auto; background: #ffffff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
+        label { display: block; margin-top: 10px; color: #0d47a1; }
+        input { width: 100%; padding: 8px; margin-top: 5px; border: 2px solid #90caf9; border-radius: 4px; }
+        button { background-color: #1e88e5; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 15px; width: 100%; }
+        #result { margin-top: 20px; text-align: center; font-weight: bold; }
+        canvas { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Carbon Footprint Calculator</h1>
+    <div class="container">
+        <label for="electricity">Electricity Usage (kWh/month)</label>
+        <input type="number" id="electricity" placeholder="e.g., 350">
+
+        <label for="gas">Gas Consumption (liters/month)</label>
+        <input type="number" id="gas" placeholder="e.g., 100">
+
+        <label for="car">Car Mileage (km/month)</label>
+        <input type="number" id="car" placeholder="e.g., 500">
+
+        <button onclick="calculateFootprint()">Calculate Footprint</button>
+        <div id="result"></div>
+        <canvas id="footprintChart" width="400" height="400"></canvas>
+    </div>
+
+    <script>
+        function calculateFootprint() {
+            const electricity = parseFloat(document.getElementById('electricity').value) || 0;
+            const gas = parseFloat(document.getElementById('gas').value) || 0;
+            const car = parseFloat(document.getElementById('car').value) || 0;
+
+            // Emission factors (in kg CO2 per unit)
+            const electricityFactor = 0.5;
+            const gasFactor = 2.3;
+            const carFactor = 0.2;
+
+            const totalFootprint = (electricity * electricityFactor) + (gas * gasFactor) + (car * carFactor);
+            const resultElement = document.getElementById('result');
+
+            if (totalFootprint < 100) {
+                resultElement.style.color = '#1b5e20'; // Green for healthy footprint
+            } else {
+                resultElement.style.color = '#d32f2f'; // Red for high footprint
+            }
+
+            resultElement.innerText = `Estimated Carbon Footprint: ${totalFootprint.toFixed(2)} kg CO2/month`;
+
+            const canvas = document.getElementById('footprintChart');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 400; // Reset canvas size to clear previous chart
+            canvas.height = 400;
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Electricity', 'Gas', 'Car'],
+                    datasets: [{
+                        data: [electricity * electricityFactor, gas * gasFactor, car * carFactor],
+                        backgroundColor: ['#42a5f5', '#66bb6a', '#ffa726']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'top' },
+                        tooltip: { enabled: true }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

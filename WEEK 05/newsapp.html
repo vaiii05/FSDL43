@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News App</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; }
+        h1 { text-align: center; }
+        .news-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .news-card { background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+        .news-card img { width: 100%; border-radius: 8px; }
+        .news-card a { text-decoration: none; color: #1a73e8; display: block; margin-top: 8px; }
+    </style>
+</head>
+<body>
+    <h1>Latest News</h1>
+    <div class="news-container" id="news-container"></div>
+
+    <script>
+        const API_URL = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=c544c659d3334aac85ec9a5587d7974b';
+
+        async function fetchNews() {
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
+                const container = document.getElementById('news-container');
+
+                if (!data.articles || data.articles.length === 0) {
+                    container.innerHTML = '<p>No news available at the moment.</p>';
+                    return;
+                }
+
+                data.articles.forEach(article => {
+                    const card = document.createElement('div');
+                    card.className = 'news-card';
+                    card.innerHTML = `
+                        <img src="${article.urlToImage || 'https://via.placeholder.com/300'}" alt="News Image">
+                        <h3>${article.title}</h3>
+                        <p>${article.description || 'No description available.'}</p>
+                        <a href="${article.url}" target="_blank">Read more</a>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (err) {
+                console.error('Error fetching news:', err);
+                document.getElementById('news-container').innerHTML = '<p>Failed to load news. Please try again later.</p>';
+            }
+        }
+
+        fetchNews();
+    </script>
+</body>
+</html>

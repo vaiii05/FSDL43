@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Delivery App</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background: url('bg.png') no-repeat center center fixed; 
+            background-size: cover;
+            padding: 20px;
+        }
+        #products, .cart { 
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .product, .cart-item { 
+            border: 1px solid #ddd; 
+            padding: 15px; 
+            border-radius: 12px; 
+            background-color: rgba(255, 255, 255, 0.9); 
+            text-align: center; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .product img { 
+            width: 100%; 
+            max-width: 200px; 
+            height: auto; 
+            border-radius: 12px; 
+            margin-bottom: 10px;
+        }
+        .cart { 
+            margin-top: 20px; 
+            padding: 20px; 
+            background-color: rgba(255, 255, 255, 0.95); 
+            border: 3px solid #4CAF50; 
+            border-radius: 12px; 
+        }
+        .button { 
+            background-color: #4CAF50; 
+            color: white; 
+            border: none; 
+            padding: 8px 20px; 
+            cursor: pointer; 
+            border-radius: 5px; 
+        }
+        .button.remove { background-color: #f44336; }
+        .quantity-controls { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 5px; 
+        }
+    </style>
+</head>
+<body>
+    <h1 style="color: white; text-shadow: 2px 2px 4px #000; text-align: center;">Online Delivery App</h1>
+
+    <div id="products">
+        <div class="product">
+            <img src="pizza.jpg" alt="Pizza Margherita">
+            <h3>Pizza Margherita - $8.99</h3>
+            <button class="button" onclick="addToCart('Pizza Margherita', 8.99)">Add to Cart</button>
+        </div>
+        <div class="product">
+            <img src="burger.jpg" alt="Veggie Burger">
+            <h3>Veggie Burger - $6.99</h3>
+            <button class="button" onclick="addToCart('Veggie Burger', 6.99)">Add to Cart</button>
+        </div>
+        <div class="product">
+            <img src="spaghetti.jpg" alt="Spaghetti Carbonara">
+            <h3>Spaghetti Carbonara - $7.49</h3>
+            <button class="button" onclick="addToCart('Spaghetti Carbonara', 7.49)">Add to Cart</button>
+        </div>
+    </div>
+
+    <div class="cart">
+        <h2>Shopping Cart</h2>
+        <div id="cart-items"></div>
+        <h3 id="total">Total: $0.00</h3>
+    </div>
+
+    <script>
+        const cart = {};
+
+        function addToCart(name, price) {
+            if (cart[name]) {
+                cart[name].quantity++;
+            } else {
+                cart[name] = { price, quantity: 1 };
+            }
+            updateCart();
+        }
+
+        function removeFromCart(name) {
+            if (cart[name].quantity > 1) {
+                cart[name].quantity--;
+            } else {
+                delete cart[name];
+            }
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItemsDiv = document.getElementById('cart-items');
+            const totalElement = document.getElementById('total');
+            cartItemsDiv.innerHTML = '';
+            let total = 0;
+
+            for (const [name, data] of Object.entries(cart)) {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'cart-item';
+                itemDiv.innerHTML = `
+                    ${name} - $${data.price} x ${data.quantity} 
+                    <div class="quantity-controls">
+                        <button class="button" onclick="addToCart('${name}', ${data.price})">+</button>
+                        <button class="button remove" onclick="removeFromCart('${name}')">-</button>
+                    </div>
+                `;
+                total += data.price * data.quantity;
+                cartItemsDiv.appendChild(itemDiv);
+            }
+
+            totalElement.textContent = `Total: $${total.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
